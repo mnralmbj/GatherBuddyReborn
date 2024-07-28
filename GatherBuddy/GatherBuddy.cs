@@ -66,6 +66,7 @@ public partial class GatherBuddy : IDalamudPlugin
     public static SeTugType      TugType        { get; private set; } = null!;
     public static WaymarkManager WaymarkManager { get; private set; } = null!;
     public static AutoGather.AutoGather AutoGather { get; private set; } = null!;
+    public static AuthoGatherV2.AutoGather AutoGatherV2 { get; private set; } = null!;
 
 
     internal readonly GatherGroup.GatherGroupManager GatherGroupManager;
@@ -110,7 +111,8 @@ public partial class GatherBuddy : IDalamudPlugin
             LocationManager     = LocationManager.Load();
             AlarmManager        = AlarmManager.Load();
             GatherWindowManager = GatherWindowManager.Load(AlarmManager);
-            AutoGather = new AutoGather.AutoGather(this);
+            AutoGather          = new AutoGather.AutoGather(this);
+            AutoGatherV2        = new AuthoGatherV2.AutoGather(this);
             AlarmManager.ForceEnable();
 
             InitializeCommands();
@@ -161,6 +163,7 @@ public partial class GatherBuddy : IDalamudPlugin
         foreach (var obj in objs)
             WorldData.AddLocation(obj.DataId, obj.Position);
         AutoGather.DoAutoGather();
+        AutoGatherV2.Update();
     }
 
     void IDisposable.Dispose()
